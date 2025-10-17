@@ -1,32 +1,34 @@
-'use client'
-import React,{ useEffect, useState } from 'react'
+"use client";
+
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="p-2 rounded-full transition"
+    >
+      {theme === "dark" ? (
+        <SunIcon className="w-5 h-5 text-yellow-400" />
+      ) : (
+        <MoonIcon className="w-5 h-5 text-gray-600" />
+      )}
+    </button>
+  );
+}
 
 function Header() {
-   const [darkMode, setDarkMode] = useState(false)
-    useEffect(() => {
-    const saved = localStorage.getItem('theme')
-    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-      setDarkMode(true)
-    }
-  }, [])
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-    if (!darkMode) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }
   return (
-   <header className='flex justify-end shadow-sm h-20 px-24'>
-        <button
-          onClick={toggleDarkMode}
-        >
-          {darkMode ? <div>'Dark'</div> : <div>'Light'</div>}
-        </button>
+   <header className='flex justify-center lg:justify-end shadow-sm h-20 px-24'>
+       <ThemeToggle />
     </header>
   )
 }

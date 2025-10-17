@@ -41,7 +41,7 @@ function Login() {
     }
   } 
   return (
-    <div className=" bg-gray-100  text-[#425B90] dark:bg-black">
+    <div className="text-[#425B90]">
       <Header />
       <div className='flex w-full xl:px-30'>
           <div  className='w-[100%] lg:flex justify-center items-center hidden'>
@@ -87,7 +87,7 @@ function Login() {
             <div>
               <div className="flex justify-between text-[.9rem]">
                 <div className="flex text-muted-foreground items-center gap-x-2">
-                  <input type="checkbox" className='h-7'/>
+                  <input type="checkbox" className='h-7 '/>
                   <span className="leading-4">Remember me</span>
                 </div>
                 <p>Forgot password?</p>

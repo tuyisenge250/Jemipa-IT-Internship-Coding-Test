@@ -13,21 +13,29 @@ import { useRouter } from 'next/navigation'
 import Header from './component/header'
 
 function Login() {
+  // form state
   const [data, setData] = useState({password:"", email:""})
   const [error,setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
   const router = useRouter()
+  // handlers
   const handleChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => setData({...data, email: e.target.value})
   const handleChangePassword = (e : React.ChangeEvent<HTMLInputElement>) => setData({...data, password: e.target.value})
   const handleSubmit = (e : React.FormEvent) => {
-    console.log(data)
+    setLoading(true)
     setError("")
     e.preventDefault()
+      // validate fields
     if(!data.email || !data.password) {
       setError("All fields are required")
+      setLoading(false)
       return
     }else {
+      // validate password length
       if(data.password.length < 6) {
         setError("Password must be at least 6 characters")
+        setLoading(false)
         return
       }
       //validate email format using regex
@@ -35,9 +43,13 @@ function Login() {
        setError("Invalid email format")
        return
      }
-     router.push('/dashboard')
      setData({email:"", password:""})
      setError("")
+     setLoading(false)
+     setSuccess(true)
+     setTimeout(() => {
+      router.push('/dashboard')
+     }, 2000);
     }
   } 
   return (
@@ -55,6 +67,7 @@ function Login() {
             Welcome back to Jemipa! We're glad to see you again.
           </p>
           {error && <p className='text-red-500 text-sm'>{error}</p>}
+          {success && <p className='text-green-700 text-sm'>Login Successful! Redirecting...</p>}
           <div className="space-y-5 w-full max-w-md">
             <div className="relative ">
               <div className="absolute inset-0 my-auto left-5 size-6">
